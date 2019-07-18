@@ -1,0 +1,51 @@
+name: protracker
+base: core18
+summary: A ProTracker 2.3D clone
+description: |
+  A multi-platform clone of the classic music making software ProTracker
+  from the Commodore Amiga days.
+grade: devel
+confinement: devmode
+adopt-info: protracker
+
+apps:
+  protracker:
+    command: usr/bin/protracker
+    plugs:
+      - home
+      - alsa
+      - pulseaudio
+      - x11
+      - wayland
+      - opengl
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
+
+parts:
+  protracker:
+    plugin: nil
+    source: https://svn.code.sf.net/p/protracker/code/trunk
+    source-type: subversion
+    after:
+      - patches
+    build-packages:
+      - make
+      - gcc
+      - libsdl2-dev
+    stage-packages:
+      - libsdl2-2.0-0
+    override-pull: |
+      snapcraftctl pull
+      version="2.3d-$(svnversion)"
+      snapcraftctl set-version "$version"
+      patch -d "$SNAPCRAFT_PART_SRC" -p0 < "$SNAPCRAFT_STAGE"/fix-config-dir.patch
+    override-build: |
+      sh make-linux.sh
+      cp release/other/protracker "$SNAPCRAFT_PART_INSTALL"/usr/bin
+    
+  patches:
+    plugin: dump
+    source: patches
+    prime:
+      - -*
+
