@@ -42,6 +42,9 @@ parts:
     override-build: |
       sh make-linux.sh
       cp release/other/protracker "$SNAPCRAFT_PART_INSTALL"/usr/bin
+    prime:
+      - -usr/share/doc
+      - -usr/share/man
     
   patches:
     plugin: dump
