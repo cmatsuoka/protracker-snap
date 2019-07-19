@@ -39,6 +39,8 @@ parts:
       version="2.3d-$(svnversion)"
       snapcraftctl set-version "$version"
       patch -d "$SNAPCRAFT_PART_SRC" -p0 < "$SNAPCRAFT_STAGE"/fix-config-dir.patch
+      patch -d "$SNAPCRAFT_PART_SRC" -p0 < "$SNAPCRAFT_STAGE"/build-generic-binary.patch
+      patch -d "$SNAPCRAFT_PART_SRC" -p0 < "$SNAPCRAFT_STAGE"/fix-signed-typo.patch
     override-build: |
       sh make-linux.sh
       cp release/other/protracker "$SNAPCRAFT_PART_INSTALL"/usr/bin

@@ -1,0 +1,13 @@
+Index: src/pt_unicode.c
+===================================================================
+--- src/pt_unicode.c	(revision 189)
++++ src/pt_unicode.c	(working copy)
+@@ -17,7 +17,7 @@
+ #ifdef _WIN32
+ 		if (ch >= 256)
+ #else
+-		if ((singed)ch < 0)
++		if ((signed)ch < 0)
+ #endif
+ 		{
+ 			*dstBuffer++ = '?';

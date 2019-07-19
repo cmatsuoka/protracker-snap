@@ -1,0 +1,15 @@
+Index: make-linux.sh
+===================================================================
+--- make-linux.sh	(revision 188)
++++ make-linux.sh	(working copy)
+@@ -3,7 +3,7 @@
+ rm release/other/protracker &> /dev/null
+ 
+ echo Compiling, please wait...
+-gcc src/gfx/*.c src/*.c -lSDL2 -lm -Wall -Wno-unused-result -Wc++-compat -Wshadow -Winit-self -Wextra -Wunused -Wunreachable-code -Wredundant-decls -Wswitch-default -march=native -mtune=native -O3 -o release/other/protracker
++gcc src/gfx/*.c src/*.c -lSDL2 -lm -Wall -Wno-unused-result -Wc++-compat -Wshadow -Winit-self -Wextra -Wunused -Wunreachable-code -Wredundant-decls -Wswitch-default -O3 -o release/other/protracker
+ rm src/gfx/*.o src/*.o &> /dev/null
+ 
+-echo Done! The executable is in the folder named \'release/other\'.
+\ No newline at end of file
++echo Done! The executable is in the folder named \'release/other\'.
