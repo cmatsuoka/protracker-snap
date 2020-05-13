@@ -1,7 +1,7 @@
-Index: src/pt_config.c
+Index: src/pt2_config.c
 ===================================================================
---- src/pt_config.c	(revision 188)
-+++ src/pt_config.c	(working copy)
+--- src/pt2_config.c	(revision 188)
++++ src/pt2_config.c	(working copy)
 @@ -76,8 +76,10 @@
  	if (f != NULL)
  		proTrackerDotIniFound = true;
