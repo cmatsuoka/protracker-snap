@@ -5,7 +5,7 @@ description: |
   A multi-platform clone of the classic music making software ProTracker
   from the Commodore Amiga days.
 grade: stable
-confinement: devmode
+confinement: strict
 adopt-info: protracker
 
 apps:
