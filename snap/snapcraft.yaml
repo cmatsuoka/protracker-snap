@@ -18,6 +18,7 @@ apps:
       - x11
       - wayland
       - opengl
+      - audio-playback
     environment:
       LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
 
