@@ -1,5 +1,5 @@
 name: protracker
-base: core18
+base: core22
 summary: A ProTracker 2.3D clone
 description: |
   A multi-platform clone of the classic music making software ProTracker
@@ -11,6 +11,7 @@ adopt-info: protracker
 apps:
   protracker:
     command: usr/bin/protracker
+    command-chain: [pulse-runner]
     plugs:
       - home
       - alsa
@@ -20,15 +21,12 @@ apps:
       - opengl
       - audio-playback
     environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/pulseaudio
 
 parts:
   protracker:
     plugin: nil
-    source: https://github.com/8bitbubsy/pt2-clone
-    source-type: git
-    after:
-      - patches
+    source: https://github.com/8bitbubsy/pt2-clone.git
     build-packages:
       - make
       - gcc
@@ -36,21 +34,19 @@ parts:
     stage-packages:
       - libsdl2-2.0-0
     override-pull: |
-      snapcraftctl pull
+      craftctl default
       version="$(sed -n '/PROG_VER_STR/s/.*"\(.*\)"/\1/p' < src/pt2_header.h)-$(git rev-parse --short HEAD)"
-      snapcraftctl set-version "$version"
-      patch -d "$SNAPCRAFT_PART_SRC" -p0 < "$SNAPCRAFT_STAGE"/fix-config-dir.patch
-      patch -d "$SNAPCRAFT_PART_SRC" -p1 < "$SNAPCRAFT_STAGE"/build-generic-binary.patch
+      craftctl set version="$version"
+      patch -d "$CRAFT_PART_SRC" -p0 < "$CRAFT_PROJECT_DIR"/patches/fix-config-dir.patch
+      patch -d "$CRAFT_PART_SRC" -p1 < "$CRAFT_PROJECT_DIR"/patches/build-generic-binary.patch
     override-build: |
       sh make-linux.sh
-      cp release/other/pt2-clone "$SNAPCRAFT_PART_INSTALL"/usr/bin/protracker
+      cp release/other/pt2-clone "$CRAFT_PART_INSTALL"/usr/bin/protracker
+      cp "$CRAFT_PROJECT_DIR"/scripts/pulse-runner "$CRAFT_PART_INSTALL"
     prime:
       - -usr/share/doc
       - -usr/share/man
-    
-  patches:
-    plugin: dump
-    source: patches
-    prime:
-      - -*
 
+layout:
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
